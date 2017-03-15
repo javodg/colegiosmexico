@@ -32,7 +32,7 @@
           <button class="primary circular"><i>place</i></button>
         </div>
         <div class="card-content resultados">
-          <template v-for="escuela in infoRender">
+          <template v-for="(escuela, id) in infoRender">
             <div v-if="escuela" class="card row resultado"> <!-- TODO Investigar por que generar datos vasios el query -->
               <div class="resultado-logo w20 ">
                 <img class="logo" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
@@ -47,6 +47,7 @@
                 <div class="toolbar orange titulo">
                   <div class="nombre">
                     {{ escuela.nombre }} - <small>{{ escuela.tipo }}</small>
+                    <router-link :to="'/editarescuela/' + id">Go to Foo</router-link>
                   </div>
                   <div v-if="escuela.social" class="social">
                     <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->

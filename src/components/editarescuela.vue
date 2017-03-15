@@ -143,7 +143,7 @@ let config = {
   messagingSenderId: '868558740161'
 }
 
-let app = Firebase.initializeApp(config)
+let app = Firebase.initializeApp(config, 'modificarEscuela')
 Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
 let db = app.database()
 
@@ -182,7 +182,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .card {
   margin: auto .5em;
   min-height: 75vh;
