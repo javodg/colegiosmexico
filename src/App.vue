@@ -3,22 +3,19 @@
 <div id="q-app">
   <div class="toolbar inverted orange">
     <img src="~assets/logovox.png" alt="" class="logovox">
-    <div class="float-left">
-      <button class="desktop-only">
-        <icon name="facebook-square" scale="1.3"></icon>
-      </button>
-      <button class="desktop-only">
-        <icon name="twitter-square" scale="1.3"></icon>
-      </button>
-      <button class="desktop-only">
-        <icon name="envelope-square" scale="1.3"></icon>
-      </button>
-      <button class="desktop-only">
-        <icon name="envelope-square" scale="1.3"></icon>
-      </button>
-      <button class="desktop-only">
-        <icon name="phone-square" scale="1.3"></icon>
-      </button>
+    <div class="header-social float-left">
+      <a href="https://www.facebook.com/El-Directorio-Comercial-190452041047611/?fref=ts" class="desktop-only">
+        <icon name="facebook-square" scale="1.5" class="text-orange"></icon>
+      </a>
+      <a class="desktop-only">
+        <icon name="twitter-square" scale="1.5" class="text-orange"></icon>
+      </a>
+      <a href="mail:ventas@voxmedia.mx" class="desktop-only">
+        <icon name="envelope-square" scale="1.5" class="text-orange"></icon>
+      </a>
+      <a href="tel:59387742"class="desktop-only">
+        <icon name="phone-square" scale="1.5" class="text-orange"></icon>
+      </a>
       <q-search v-model="searchModel"></q-search>
     </div>
   </div>
@@ -84,10 +81,14 @@ export default {
   transform: translateX(10px);
   opacity: 0;
 }
+.header-social {
+  display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
 
 </style>
 <style>
-
   html, body {
     font-size: 14px;
     background-image: url(~assets/bg.png);

@@ -1,3 +1,4 @@
+
 <template lang="html">
   <div class="layout-padding full-height">
     <div class="row md-column justify-center items-stretch">
@@ -5,6 +6,7 @@
         <div class="card-title bg-white">
           Formulario
           <button class="primary small float-right" @click="actualizarInfo()">Actualizar</button>
+          <button class="primary small float-right" @click="eliminarescuela()">Eliminar</button>
         </div>
         <div v-if="escuela[id]" class="card-content bg-white">
           <div class="list">
@@ -16,16 +18,14 @@
                 </div>
               </div>
             </div>
-            <hr>
             <div class="row wrap justify-between">
               <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.estancia"></q-checkbox>Estancias</label>
               <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.kinder"></q-checkbox>Kinder</label>
               <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.primaria"></q-checkbox>Primaria</label>
               <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.secundaria"></q-checkbox>Secundaria</label>
-              <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.preperatoria"></q-checkbox>Preparatoria</label>
+              <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.preparatoria"></q-checkbox>Preparatoria</label>
               <label class="width-1of3"><q-checkbox v-model="escuela[id].categoria.universidad"></q-checkbox>Universidad</label>
             </div>
-            <hr>
             <div class="item multiple-lines">
               <div class="item-content">
                 <div class="stacked-label">
@@ -46,12 +46,20 @@
                 </div>
               </div>
             </div>
-            <hr>
             <div class="item multiple-lines">
               <div class="item-content">
                 <div class="stacked-label">
                   <textarea class="full-width descripcion" v-model="escuela[id].descripcion"></textarea>
                   <label>Descripcion:</label>
+                </div>
+              </div>
+            </div>
+            <div class="item multiple-lines">
+              <div class="item-content">
+                <h6>Enlaces a redes sociales.</h6>
+                <div class="stacked-label" v-if="escuela[id].social">
+                  <input class="full-width" v-model="escuela[id].social.facebook">
+                  <label>Facebook:</label>
                 </div>
               </div>
             </div>
@@ -63,6 +71,7 @@
           Ficha ejemplo
         </div>
         <div class="card-content bg-white">
+          {{ escuela }} - {{ escuela[id] }}
               <div v-if="escuela[id]" class="card row resultado">
                 <div class="resultado-logo w20 ">
                   <img class="logo" :src="'statics/logos/' + escuela[id].nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
@@ -79,6 +88,7 @@
                       {{ escuela[id].nombre }} - <small>{{ escuela[id].tipo }}</small>
                     </div>
                     <div v-if="escuela[id].social" class="social">
+                      Social
                       <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
                       <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
                       <a v-if="escuela[id].social.facebook" :href="escuela[id].social.facebook" class="text-white">
@@ -149,20 +159,46 @@ let db = app.database()
 
 export default {
   methods: {
+    eliminarescuela () {
+      let vm = this
+      let id = this.$route.params.id
+      let name = vm.escuela.nombre
+      db.ref('escuela/' + id).remove().then(function () {
+        window.history.go(-1)
+        console.log('Se elimino ' + name)
+      }).catch(function (error) {
+        console.log('Remove failed: ' + error.message)
+      })
+    },
     query () {
       var vm = this // ingresa la el objeto de VUE a la funcion
       vm.id = this.$route.params.id
       db.ref('escuela').orderByKey().equalTo(vm.id).on('value', function (dataSnapshot) {
         // console.log(dataSnapshot.val())
         vm.escuela = dataSnapshot.exportVal() // pasa los resultados de la busqueda al objeto para hacer el Render
-        console.log(vm.escuela[vm.id])
+        if (!vm.escuela[vm.id].social) {
+          // Inicio de arreglo para porblema social
+          // TODO falta arreglar las otras redes sociales, solo funciona facebook
+          console.log('falta social')
+          vm.escuela[vm.id][ 'social' ] = { facebook: '' }
+          console.log(vm.escuela.social)
+        }
+        var arraytemp = ['estancia', 'kinder', 'primaria', 'secundaria', 'preparatoria', 'universidad']
+        for (var i = 0; i < arraytemp.length; i++) {
+          if (vm.escuela[vm.id].categoria[ '' + arraytemp[i] ] === undefined) {
+            console.log('falta ' + arraytemp[i])
+            vm.escuela[vm.id].categoria[ '' + arraytemp[i] ] = false
+          }
+        }
       })
     },
     actualizarInfo () {
       var vm = this // ingresa la el objeto de VUE a la funcion
       vm.id = this.$route.params.id
       console.log(vm.escuela[vm.id])
-      db.ref('escuela/' + vm.id).set(vm.escuela[vm.id])
+      db.ref('escuela/' + vm.id).set(vm.escuela[vm.id], function () {
+        window.history.go(-1)
+      })
     }
   },
   created () {

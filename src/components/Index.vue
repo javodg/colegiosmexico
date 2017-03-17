@@ -1,6 +1,32 @@
 <template>
 <div class="layout-view">
   <q-slider arrows dots class="text-white">
+    <div slot="slide" class="centered no-padding slides slide2 categorias">
+      <div class="card categorias bg-white">
+        <div class="card-content">
+          <div class="row">
+            <button class="bg-orange" v-link="'/escuelas/estancia' ">
+              Estancias
+            </button>
+            <button class="bg-orange" v-link="'/escuelas/kinder' ">
+              Kinder
+            </button>
+            <button class="bg-orange" v-link="'/escuelas/primaria' ">
+              Primaria
+            </button>
+            <button class="bg-orange" v-link="'/escuelas/secundaria' ">
+              Secundaria
+            </button>
+            <button class="bg-orange" v-link="'/escuelas/Preparatoria' ">
+              Preparatoria
+            </button>
+            <button class="bg-orange" v-link="'/escuelas/universidad' ">
+              Universidad
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div slot="slide" class="centered no-padding slides slide1">
       <h4 class="text-bold">Encuentra la escuela que necesitas:</h4>
       <p>Te mostramos los mejores resultados para lo que buscas.</p>
@@ -8,18 +34,6 @@
         <q-search v-model="searchModel" class=""></q-search>
         <q-select type="list" v-model="select" :options="selectOptions" placeholder="Categoria" class="red"></q-select>
         <button class="primary small"><i class="on-left">search</i>Buscar</button>
-      </div>
-    </div>
-    <div slot="slide" class="centered no-padding slides slide2 categorias">
-      <div class="card categorias bg-white">
-        <div class="card-content">
-          <div class="row">
-            <button class="primary" v-link=" '/escuelas' ">
-              Estancias
-            </button>
-
-          </div>
-        </div>
       </div>
     </div>
     <div slot="slide" class="centered no-padding slides slide3">
@@ -71,8 +85,8 @@ export default {
       select: 'Categoria',
       selectOptions: [
         {
-          label: 'Guarderias',
-          value: 'guarderias'
+          label: 'Estancias',
+          value: 'estancias'
         },
         {
           label: 'Kinder',
@@ -97,8 +111,19 @@ export default {
 </script>
 
 <style scoped>
+#map { height: 50vh; }
+
 .card.categorias {
   max-width: 30em;
+
+}
+.card.categorias .row {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.card.categorias .row button {
+  width: 10em;
+  margin: .4em;
 }
 i {
   font-size: 1.6em;

@@ -26,6 +26,7 @@ export default new VueRouter({
     { path: '/escuelas/:id', component: load('escuelas'), props: true }, // Primera prueba de router
     { path: '/cursos', component: load('colors') },
     { path: '/editarescuela/:id', component: load('editarescuela') },
+    { path: '/nuevaescuela', component: load('nuevaescuela') },
     { path: '*', component: load('Error404') } // Not found
   ]
 })

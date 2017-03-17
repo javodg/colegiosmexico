@@ -22,7 +22,7 @@ Vue.use(VueFire) // Instalar Binding de Firebase
 
 Quasar.start(() => {
   /* eslint-disable no-new */
-  new Vue({
+  new Vue({ // eslint-disable
     el: '#q-app',
     router,
     render: h => h(require('./App'))

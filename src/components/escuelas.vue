@@ -12,8 +12,10 @@
           <h6><small>Categorias:</small></h6>
           <q-select type="list" v-model="categoria" @input="$router.push(categoria)" :options="selectOptions" class="fit"></q-select>
           <q-search v-model="searchModel"></q-search>
-          <button class="primary small fit" @click="buscar(searchModel)"><i class="on-left">search</i>Buscar</button>
+          <button class="bg-orange text-white small fit" @click="buscar(searchModel)"><i class="on-left">search</i>Buscar</button>
           <hr>
+          <!-- TODO Arreglart el rating -->
+          <!--
           <div class="categoria-component text-justify">
             <label v-for='ii in 5' class="block">
               <q-radio v-model="grade" :val="6-ii"></q-radio>
@@ -24,6 +26,11 @@
               <span class="resultados text-right">({{ numeroEscuelas[ii-1] }})</span>
             </label>
           </div>
+          <hr>
+          -->
+          <button class="bg-orange text-white small fit" v-link="'/nuevaEscuela'">
+            Nueva escuela
+          </button>
         </div>
       </div>
       <div class="card card-resultados no-padding">
@@ -44,55 +51,59 @@
                 </div>
               </div>
               <div class="card-content card-force-top-padding w80">
-                <div class="toolbar orange titulo">
-                  <div class="nombre">
-                    {{ escuela.nombre }} - <small>{{ escuela.tipo }}</small>
-                    <router-link :to="'/editarescuela/' + id">Go to Foo</router-link>
+                <div class="toolbar orange titulo" :style="'height:3em'">
+                  <div class="nombre" :style="'font-size:1.5em'">
+                    {{ escuela.nombre }} -
+                    <small v-for="categoria in enumerar(escuela)" class="capitalize" :style="'font-size:.7em'">
+                      {{ categoria }}
+                    </small>
                   </div>
-                  <div v-if="escuela.social" class="social">
+                  <div class="social">
                     <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
                     <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
-                    <a v-if="escuela.social.facebook" :href="escuela.social.facebook" class="text-white">
-                      <icon name="facebook-square" scale="1.5"></icon>
-                    </a>
-                    <a v-if="escuela.social.twitter" :href="escuela.social.twitter" class="text-white">
-                      <icon name="twitter-square" scale="1.5"></icon>
-                    </a>
-                    <a v-if="escuela.social.foursquare" :href="escuela.social.foursquare" class="text-white">
-                      <icon label="foursquare" class="stalk">
-                        <icon name="square" scale="1.5"></icon>
-                        <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                      </icon>
-                    </a>
+                    <router-link :to="'/editarescuela/' + id" class="text-white">
+                      <icon name="cog" scale="1.5"></icon>
+                    </router-link>
+                    <template v-if="escuela.social" >
+                      <a v-if="escuela.social.facebook" :href="escuela.social.facebook" class="text-white">
+                        <icon name="facebook-square" scale="1.5"></icon>
+                      </a>
+                      <a v-if="escuela.social.twitter" :href="escuela.social.twitter" class="text-white">
+                        <icon name="twitter-square" scale="1.5"></icon>
+                      </a>
+                      <a v-if="escuela.social.foursquare" :href="escuela.social.foursquare" class="text-white">
+                        <icon label="foursquare" class="stalk">
+                          <icon name="square" scale="1.5"></icon>
+                          <icon name="foursquare" scale="1.1" class="text-orange"></icon>
+                        </icon>
+                      </a>
+                    </template>
                   </div>
                 </div>
-                <div class="cuerpo">
+                <div class="cuerpo row">
                   <div class="descripcion">
                     {{ escuela.descripcion }}
                   </div>
-                  <div class="datos-contacto" v-if="escuela.direccion">
-                    <span>Direccion:</span>
-                    <span>
+                  <div class="datos-contacto">
+                    <div v-if="escuela.direccion">
+                      <span>Direccion:</span>
                       <span v-if="typeof(escuela.direccion)==='string'">{{ escuela.direccion }}</span>
                       <span v-else v-for="dir in escuela.direccion">
-                        {{ dir }}
+                          {{ dir }}
                       </span>
-                    </span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela.telefono">
-                    <span>Telefono:</span>
-                    <span>{{ escuela.telefono }}</span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela.web">
-                    <span>Siio Web:</span>
-                    <span>{{ escuela.web }}</span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela.mail">
-                    <span>Correo:</span>
-                    <span>{{ escuela.mail }}</span>
-                  </div>
-                  <div class="" v-if="escuela.fichaTipo==1">
-                    {{ escuela.info }}
+                    </div>
+                    <div v-if="escuela.telefono">
+                      <span>Telefono:</span>
+                      <span>{{ escuela.telefono }}</span>
+                    </div>
+                    <div v-if="escuela.web">
+                      <span>Siio Web:</span>
+                      <span>{{ escuela.web }}</span>
+                    </div>
+                    <div v-if="escuela.mail">
+                      <span>Correo:</span>
+                      <span>{{ escuela.mail }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -122,6 +133,18 @@
 
   export default {
     methods: {
+      enumerar (escuela) {
+        let cats = escuela.categoria
+        let temp = []
+        for (var key in cats) {
+          if (cats[key]) {
+            console.log('Categoria' + key, '=', cats[key])
+            temp.push(key)
+          }
+        }
+        console.log(temp)
+        return temp
+      },
       cats (id) {
         // Toma informacion de la base de datos segun categoria
         var vm = this // ingresa la el objeto de VUE a la funcion
@@ -165,8 +188,8 @@
         infoRender: [],
         selectOptions: [
           {
-            label: 'Guarderias',
-            value: 'guarderia'
+            label: 'Estancias',
+            value: 'estancia'
           },
           {
             label: 'Kinder',
@@ -199,17 +222,24 @@
 </script>
 
 <style scoped>
+.resultado {
+  height: 15em;
+}
+
 .resultado-logo {
   width: 20em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-  height: 14em;
+  height: 15em;
+  display: flex;
+  flex-direction: column;
 }
 .resultado-logo .logo {
-  height: 12.5em;
+  flex-basis: 1;
+  box-sizing: border-box;
+  height: 13.5em;
   margin: 0 auto;
   padding: .4em;
   text-align: center;
-  display: block;
 }
 
 .resultado-logo .calificacion {
@@ -234,21 +264,21 @@
   padding: .8em;
 }
 
-.resultado .cuerpo .descripcion {
-  margin-bottom: .8em;
-  text-align: justify;
-}
+.resultado .cuerpo .descripcion,
 .resultado .cuerpo .datos-contacto {
-  width: 100%;
+  flex-basis: 50%;
+  padding: .2em;
 }
-.resultado .cuerpo .datos-contacto span {
-  display: inline-block;
-  width: 35em;
+.resultado .cuerpo .datos-contacto div {
+  display: flex;
 }
-.resultado .cuerpo .datos-contacto > span:first-child {
-  vertical-align: top;
+.resultado .cuerpo .datos-contacto div span:first-child {
   font-weight: bold;
-  width: 5.5em;
+  width: 5em;
+}
+.resultado .cuerpo .datos-contacto div span:last-child {
+  flex-basis: 70%;
+  font-size: .9em;
 }
 .resultado .titulo>.nombre {
   font-size: 1.2em;
@@ -264,7 +294,7 @@
 .w80 {
   flex-basis: auto;
   width: 100%;
-  padding: .4em !important;
+  padding: 0 !important;
 }
 
 .mapa {
@@ -287,7 +317,7 @@
   flex-wrap: wrap;
   justify-content: center;
   overflow-y: auto;
-  height: inherit;
+  height: 70vh;
 }
 
 .card {
