@@ -13,6 +13,10 @@ import router from './router'
 import 'vue-awesome/icons'
 import 'normalize.css'
 
+// Mis componenets
+  import fichaescuela from 'components/fichaescuela'
+Vue.component('fichaescuela', fichaescuela)
+
 // FontAwesome icons
 import Icon from 'vue-awesome/components/Icon.vue'
 Vue.component('icon', Icon)
@@ -20,11 +24,15 @@ Vue.component('icon', Icon)
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueFire) // Instalar Binding de Firebase
 
+var vm
+
 Quasar.start(() => {
   /* eslint-disable no-new */
-  new Vue({ // eslint-disable
+  vm = new Vue({ // eslint-disable
     el: '#q-app',
     router,
     render: h => h(require('./App'))
   })
+
 })
+console.log(vm)

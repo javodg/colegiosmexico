@@ -12,7 +12,6 @@
       <button @click="$refs.rightDrawer.open()"><i>more_vert</i></button>
     </div>
   </div>
-
 </template>
 
 <script>

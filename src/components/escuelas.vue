@@ -39,6 +39,7 @@
           <button class="primary circular"><i>place</i></button>
         </div>
         <div class="card-content resultados">
+          <fichaescuela></fichaescuela>
           <template v-for="(escuela, id) in infoRender">
             <div v-if="escuela" class="card row resultado"> <!-- TODO Investigar por que generar datos vasios el query -->
               <div class="resultado-logo w20 ">
@@ -138,11 +139,9 @@
         let temp = []
         for (var key in cats) {
           if (cats[key]) {
-            console.log('Categoria' + key, '=', cats[key])
             temp.push(key)
           }
         }
-        console.log(temp)
         return temp
       },
       cats (id) {
