@@ -1,7 +1,9 @@
 <template lang="html">
-    <div class="card row resultado">
-      <div class="resultado-logo w20 ">
-        <img class="logo" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
+    <div v-if="escuela" class="card row ficha" :class="'ficha' + fichatipo">
+      <div class="logo">
+        <!-- TODO pendiente implementar la subida de imagenes -->
+        <!-- <img class="logo" :src="'statics/logos/' + nuevaEscuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt=""> -->
+        <img class="image" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
         <div class="calificacion vertical-bottom">
           <template v-for="ii in 5">
             <i v-if="ii<=escuela.rating" class="text-yellow-9">grade</i>
@@ -11,7 +13,7 @@
       </div>
       <div class="card-content card-force-top-padding w80">
         <div class="toolbar orange titulo" :style="'height:3em'">
-          <div class="nombre" :style="'font-size:1.5em'">
+          <div class="nombre">
             {{ escuela.nombre }} -
             <small v-for="categoria in enumerar(escuela)" class="capitalize" :style="'font-size:.7em'">
               {{ categoria }}
@@ -71,6 +73,10 @@
 
 <script>
 export default {
+  props: [
+    'escuela',
+    'fichatipo'
+  ],
   methods: {
     enumerar (escuela) {
       let cats = escuela.categoria
@@ -85,46 +91,27 @@ export default {
   },
   data () {
     return {
-      id: 0,
-      escuela: {
-        categoria: {
-          estancia: false,
-          kinder: true,
-          preperatoria: false,
-          primaria: true,
-          secundaria: true,
-          universidad: false
-        },
-        descripcion: 'Lorem ipsum dolor stempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.adsasdsad',
-        direccion: 'Calle Castaño s/n entre Ahuehuete y Paseo del Olmo 5ta Sección, Villas del Real asdasdasd',
-        mail: 'adamsmith.tecamac@gmail.com',
-        nombre: 'Colegio Adam Smith',
-        rating: 3,
-        social: {
-          facebook: 'https://www.facebook.com/pages/Colegio-Adam-Smith/495431947167396',
-          foursquare: 'https://es.foursquare.com/v/colegio-adam-smith/4e0b58ddd164e3547c300476'
-        },
-        telefono: 38729333,
-        web: 'asd'
-      }
+      id: 0
     }
   }
 }
 </script>
 
 <style scoped>
-.resultado {
+.ficha0 {
+  height: 10em;
+}
+.ficha1 {
   height: 15em;
 }
-
-.resultado-logo {
+.ficha .logo {
   width: 20em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
   height: 15em;
   display: flex;
   flex-direction: column;
 }
-.resultado-logo .logo {
+.ficha>.logo>.image {
   flex-basis: 1;
   box-sizing: border-box;
   height: 13.5em;
@@ -133,51 +120,52 @@ export default {
   text-align: center;
 }
 
-.resultado-logo .calificacion {
+.ficha .calificacion {
   height: 1.5em;
   background-color: #333;
   text-align: center;
   display: block;
+  display: none !important; /* TODO pendiente implementar sistema de rating, quitar esta linea cuando este implementado para mostrar el riting */
 }
 
-.resultado .titulo {
+.ficha .titulo {
   width: 100%;
   min-height: 0;
 }
 
-.resultado .titulo small {
+.ficha .titulo small {
   font-size: .8em;
   font-style: italic;
 }
 
-.resultado .cuerpo {
+.ficha .cuerpo {
   width: 100%;
   padding: .8em;
 }
 
-.resultado .cuerpo .descripcion,
-.resultado .cuerpo .datos-contacto {
+.ficha .cuerpo .descripcion,
+.ficha .cuerpo .datos-contacto {
   flex-basis: 50%;
   padding: .2em;
 }
-.resultado .cuerpo .datos-contacto div {
+.ficha .cuerpo .datos-contacto div {
   display: flex;
 }
-.resultado .cuerpo .datos-contacto div span:first-child {
+.ficha .cuerpo .datos-contacto div span:first-child {
   font-weight: bold;
   width: 5em;
 }
-.resultado .cuerpo .datos-contacto div span:last-child {
+.ficha .cuerpo .datos-contacto div span:last-child {
   flex-basis: 70%;
   font-size: .9em;
 }
-.resultado .titulo>.nombre {
+.ficha .titulo>.nombre {
   font-size: 1.2em;
   font-weight: bold;
   float: left;
 }
 
-.resultado .titulo>.social {
+.ficha .titulo>.social {
   float: right;
   height: 1.4em;
 }

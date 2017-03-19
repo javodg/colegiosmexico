@@ -39,77 +39,77 @@
           <button class="primary circular"><i>place</i></button>
         </div>
         <div class="card-content resultados">
-          <fichaescuela></fichaescuela>
-          <template v-for="(escuela, id) in infoRender">
-            <div v-if="escuela" class="card row resultado"> <!-- TODO Investigar por que generar datos vasios el query -->
-              <div class="resultado-logo w20 ">
-                <img class="logo" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
-                <div class="calificacion vertical-bottom">
-                  <template v-for="ii in 5">
-                    <i v-if="ii<=escuela.rating" class="text-yellow-9">grade</i>
-                    <i v-if="ii>escuela.rating" class="text-white">grade</i>
-                  </template>
-                </div>
-              </div>
-              <div class="card-content card-force-top-padding w80">
-                <div class="toolbar orange titulo" :style="'height:3em'">
-                  <div class="nombre" :style="'font-size:1.5em'">
-                    {{ escuela.nombre }} -
-                    <small v-for="categoria in enumerar(escuela)" class="capitalize" :style="'font-size:.7em'">
-                      {{ categoria }}
-                    </small>
-                  </div>
-                  <div class="social">
-                    <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
-                    <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
-                    <router-link :to="'/editarescuela/' + id" class="text-white">
-                      <icon name="cog" scale="1.5"></icon>
-                    </router-link>
-                    <template v-if="escuela.social" >
-                      <a v-if="escuela.social.facebook" :href="escuela.social.facebook" class="text-white">
-                        <icon name="facebook-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="escuela.social.twitter" :href="escuela.social.twitter" class="text-white">
-                        <icon name="twitter-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="escuela.social.foursquare" :href="escuela.social.foursquare" class="text-white">
-                        <icon label="foursquare" class="stalk">
-                          <icon name="square" scale="1.5"></icon>
-                          <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                        </icon>
-                      </a>
+          <fichaescuela v-for="escuela in infoRender" :escuela="escuela" :key="escuela.id"></fichaescuela>
+          <!-- TODO pendiente de eliminar cuando compruebe que no hay errores en el component de fichaescuela.VUE
+            <template v-for="(escuela, id) in infoRender">
+              <div v-if="escuela" class="card row resultado">
+                <div class="resultado-logo w20 ">
+                  <img class="logo" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
+                  <div class="calificacion vertical-bottom">
+                    <template v-for="ii in 5">
+                      <i v-if="ii<=escuela.rating" class="text-yellow-9">grade</i>
+                      <i v-if="ii>escuela.rating" class="text-white">grade</i>
                     </template>
                   </div>
                 </div>
-                <div class="cuerpo row">
-                  <div class="descripcion">
-                    {{ escuela.descripcion }}
+                <div class="card-content card-force-top-padding w80">
+                  <div class="toolbar orange titulo" :style="'height:3em'">
+                    <div class="nombre" :style="'font-size:1.5em'">
+                      {{ escuela.nombre }} -
+                      <small v-for="categoria in enumerar(escuela)" class="capitalize" :style="'font-size:.7em'">
+                        {{ categoria }}
+                      </small>
+                    </div>
+                    <div class="social">
+                      <router-link :to="'/editarescuela/' + id" class="text-white">
+                        <icon name="cog" scale="1.5"></icon>
+                      </router-link>
+                      <template v-if="escuela.social" >
+                        <a v-if="escuela.social.facebook" :href="escuela.social.facebook" class="text-white">
+                          <icon name="facebook-square" scale="1.5"></icon>
+                        </a>
+                        <a v-if="escuela.social.twitter" :href="escuela.social.twitter" class="text-white">
+                          <icon name="twitter-square" scale="1.5"></icon>
+                        </a>
+                        <a v-if="escuela.social.foursquare" :href="escuela.social.foursquare" class="text-white">
+                          <icon label="foursquare" class="stalk">
+                            <icon name="square" scale="1.5"></icon>
+                            <icon name="foursquare" scale="1.1" class="text-orange"></icon>
+                          </icon>
+                        </a>
+                      </template>
+                    </div>
                   </div>
-                  <div class="datos-contacto">
-                    <div v-if="escuela.direccion">
-                      <span>Direccion:</span>
-                      <span v-if="typeof(escuela.direccion)==='string'">{{ escuela.direccion }}</span>
-                      <span v-else v-for="dir in escuela.direccion">
-                          {{ dir }}
-                      </span>
+                  <div class="cuerpo row">
+                    <div class="descripcion">
+                      {{ escuela.descripcion }}
                     </div>
-                    <div v-if="escuela.telefono">
-                      <span>Telefono:</span>
-                      <span>{{ escuela.telefono }}</span>
-                    </div>
-                    <div v-if="escuela.web">
-                      <span>Siio Web:</span>
-                      <span>{{ escuela.web }}</span>
-                    </div>
-                    <div v-if="escuela.mail">
-                      <span>Correo:</span>
-                      <span>{{ escuela.mail }}</span>
+                    <div class="datos-contacto">
+                      <div v-if="escuela.direccion">
+                        <span>Direccion:</span>
+                        <span v-if="typeof(escuela.direccion)==='string'">{{ escuela.direccion }}</span>
+                        <span v-else v-for="dir in escuela.direccion">
+                            {{ dir }}
+                        </span>
+                      </div>
+                      <div v-if="escuela.telefono">
+                        <span>Telefono:</span>
+                        <span>{{ escuela.telefono }}</span>
+                      </div>
+                      <div v-if="escuela.web">
+                        <span>Siio Web:</span>
+                        <span>{{ escuela.web }}</span>
+                      </div>
+                      <div v-if="escuela.mail">
+                        <span>Correo:</span>
+                        <span>{{ escuela.mail }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
+          -->
         </div>
       </div>
     </div>

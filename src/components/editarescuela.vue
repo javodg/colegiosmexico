@@ -71,71 +71,75 @@
           Ficha ejemplo
         </div>
         <div class="card-content bg-white">
-          {{ escuela }} - {{ escuela[id] }}
-              <div v-if="escuela[id]" class="card row resultado">
-                <div class="resultado-logo w20 ">
-                  <img class="logo" :src="'statics/logos/' + escuela[id].nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
-                  <div class="calificacion vertical-bottom">
-                    <template v-for="ii in 5">
-                      <i v-if="ii<=escuela[id].rating" class="text-yellow-9">grade</i>
-                      <i v-if="ii>escuela[id].rating" class="text-white">grade</i>
-                    </template>
+          <!-- TODO Muestra de info para debug, eliminar
+            {{ escuela }} - {{ escuela[id].nombre }}
+          -->
+          <fichaescuela :escuela="escuela[id]" fichatipo="1"></fichaescuela>
+          <!-- TODO Pendiente de eliminar cuando compruebe <fichaescuela> funciona sin errores -->
+          <!--
+            <div v-if="escuela[id]" class="card row resultado">
+              <div class="resultado-logo w20 ">
+                <img class="logo" :src="'statics/logos/' + escuela[id].nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
+                <div class="calificacion vertical-bottom">
+                  <template v-for="ii in 5">
+                    <i v-if="ii<=escuela[id].rating" class="text-yellow-9">grade</i>
+                    <i v-if="ii>escuela[id].rating" class="text-white">grade</i>
+                  </template>
+                </div>
+              </div>
+              <div class="card-content w80 no-padding">
+                <div class="toolbar orange titulo">
+                  <div class="nombre">
+                    {{ escuela[id].nombre }} - <small>{{ escuela[id].tipo }}</small>
+                  </div>
+                  <div v-if="escuela[id].social" class="social">
+                    Social
+                    <a v-if="escuela[id].social.facebook" :href="escuela[id].social.facebook" class="text-white">
+                      <icon name="facebook-square" scale="1.5"></icon>
+                    </a>
+                    <a v-if="escuela[id].social.twitter" :href="escuela[id].social.twitter" class="text-white">
+                      <icon name="twitter-square" scale="1.5"></icon>
+                    </a>
+                    <a v-if="escuela[id].social.foursquare" :href="escuela[id].social.foursquare" class="text-white">
+                      <icon label="foursquare" class="stalk">
+                        <icon name="square" scale="1.5"></icon>
+                        <icon name="foursquare" scale="1.1" class="text-orange"></icon>
+                      </icon>
+                    </a>
                   </div>
                 </div>
-                <div class="card-content w80 no-padding">
-                  <div class="toolbar orange titulo">
-                    <div class="nombre">
-                      {{ escuela[id].nombre }} - <small>{{ escuela[id].tipo }}</small>
-                    </div>
-                    <div v-if="escuela[id].social" class="social">
-                      Social
-                      <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
-                      <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
-                      <a v-if="escuela[id].social.facebook" :href="escuela[id].social.facebook" class="text-white">
-                        <icon name="facebook-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="escuela[id].social.twitter" :href="escuela[id].social.twitter" class="text-white">
-                        <icon name="twitter-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="escuela[id].social.foursquare" :href="escuela[id].social.foursquare" class="text-white">
-                        <icon label="foursquare" class="stalk">
-                          <icon name="square" scale="1.5"></icon>
-                          <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                        </icon>
-                      </a>
-                    </div>
+                <div class="cuerpo">
+                  <div class="descripcion">
+                    {{ escuela[id].descripcion }}
                   </div>
-                  <div class="cuerpo">
-                    <div class="descripcion">
-                      {{ escuela[id].descripcion }}
-                    </div>
-                    <div class="datos-contacto" v-if="escuela[id].direccion">
-                      <span>Direccion:</span>
-                      <span>
-                        <span v-if="typeof(escuela[id].direccion)==='string'">{{ escuela[id].direccion }}</span>
-                        <span v-else v-for="dir in escuela[id].direccion">
-                          {{ dir }}
-                        </span>
+                  <div class="datos-contacto" v-if="escuela[id].direccion">
+                    <span>Direccion:</span>
+                    <span>
+                      <span v-if="typeof(escuela[id].direccion)==='string'">{{ escuela[id].direccion }}</span>
+                      <span v-else v-for="dir in escuela[id].direccion">
+                        {{ dir }}
                       </span>
-                    </div>
-                    <div class="datos-contacto" v-if="escuela[id].telefono">
-                      <span>Telefono:</span>
-                      <span>{{ escuela[id].telefono }}</span>
-                    </div>
-                    <div class="datos-contacto" v-if="escuela[id].web">
-                      <span>Siio Web:</span>
-                      <span>{{ escuela[id].web }}</span>
-                    </div>
-                    <div class="datos-contacto" v-if="escuela[id].mail">
-                      <span>Correo:</span>
-                      <span>{{ escuela[id].mail }}</span>
-                    </div>
-                    <div class="" v-if="escuela[id].fichaTipo==1">
-                      {{ escuela[id].info }}
-                    </div>
+                    </span>
+                  </div>
+                  <div class="datos-contacto" v-if="escuela[id].telefono">
+                    <span>Telefono:</span>
+                    <span>{{ escuela[id].telefono }}</span>
+                  </div>
+                  <div class="datos-contacto" v-if="escuela[id].web">
+                    <span>Siio Web:</span>
+                    <span>{{ escuela[id].web }}</span>
+                  </div>
+                  <div class="datos-contacto" v-if="escuela[id].mail">
+                    <span>Correo:</span>
+                    <span>{{ escuela[id].mail }}</span>
+                  </div>
+                  <div class="" v-if="escuela[id].fichaTipo==1">
+                    {{ escuela[id].info }}
                   </div>
                 </div>
               </div>
+            </div>
+          -->
         </div>
       </div>
     </div>
@@ -154,7 +158,7 @@ let config = {
 }
 
 let app = Firebase.initializeApp(config, 'modificarEscuela')
-Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
+// Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
 let db = app.database()
 
 export default {

@@ -65,10 +65,11 @@
         Ficha ejemplo
       </div>
       <div class="card-content bg-white">
-        <div v-if="nuevaEscuela" class="card row resultado">
+        <fichaescuela v-if="nuevaEscuela" :escuela="nuevaEscuela" fichatipo="1"></fichaescuela>
+        <!-- TODO Pendiente eliminar cuando se compruebe quye no hay errores -->
+        <!--
+          <div v-if="nuevaEscuela" class="card row resultado">
           <div class="resultado-logo w20 ">
-            <!-- TODO pendiente implementar la subida de imagenes -->
-            <!-- <img class="logo" :src="'statics/logos/' + nuevaEscuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt=""> -->
             <img class="logo" :src="'statics/logos/colegiovallarta.png'" alt="">
             <div class="calificacion vertical-bottom">
               <template v-for="ii in 5">
@@ -83,8 +84,6 @@
                       {{ nuevaEscuela.nombre }} - <small>{{ nuevaEscuela.tipo }}</small>
                     </div>
                     <div v-if="nuevaEscuela.social" class="social">
-                      <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
-                      <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
                       <a v-if="nuevaEscuela.social.facebook" :href="nuevaEscuela.social.facebook" class="text-white">
                         <icon name="facebook-square" scale="1.5"></icon>
                       </a>
@@ -130,7 +129,9 @@
                   </div>
                 </div>
               </div>
+            -->
         </div>
+
         <div class="card ">
           {{ mark }}<br>
           <gmap-map
@@ -172,17 +173,6 @@ let config = {
 let app = Firebase.initializeApp(config, 'nuevaEscuela')
 Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
 let db = app.database()
-
-/*
-function guid () {
-  function s4 () {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1)
-  }
-  return s4() + s4()
-}
-*/
 
 export default {
   methods: {
