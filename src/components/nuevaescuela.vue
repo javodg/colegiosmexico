@@ -131,8 +131,7 @@
               </div>
             -->
         </div>
-
-        <div class="card ">
+        <div class="card">
           {{ mark }}<br>
           <gmap-map
             ref="mapa"
@@ -143,7 +142,6 @@
             <gmap-marker v-if="mark.position.lat" :position="mark.position" :key="mark.id">
             </gmap-marker>
           </gmap-map>
-
         </div>
       </div>
     </div>
@@ -151,39 +149,16 @@
 </template>
 
 <script>
-import Firebase from 'firebase'
-import * as VueGoogleMaps from 'vue2-google-maps'
-import Vue from 'vue'
-
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyDnqNEymj4RcippDywy4G4r_Iu9j40sjHA',
-    v: '3'
-  }
-})
-
-let config = {
-  apiKey: 'AIzaSyAnhW4JuxrRahLlnRUU2FVmGTa_3HoWZgQ',
-  authDomain: 'colegiosmexico.firebaseapp.com',
-  databaseURL: 'https://colegiosmexico.firebaseio.com',
-  storageBucket: 'colegiosmexico.appspot.com',
-  messagingSenderId: '868558740161'
-}
-
-let app = Firebase.initializeApp(config, 'nuevaEscuela')
-Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
-let db = app.database()
-
 export default {
   methods: {
     ingresarEscuela () {
       var vm = this // ingresa la el objeto de VUE a la funcion
-      var newKey = db.ref('escuela').push().key
+      var newKey = this.database.ref('escuela').push().key
       console.log(vm.nuevaEscuela.nombre)
       console.log(newKey)
       var update = {}
       update['/' + newKey] = vm.nuevaEscuela
-      return db.ref('escuela').update(update, function (error) {
+      return this.database.ref('escuela').update(update, function (error) {
         if (error) console.log('fallo' + error)
         else {
           window.history.go(-1)
@@ -212,6 +187,7 @@ export default {
   },
   data () {
     return {
+      database: this.$root.database,
       mark: { 'id': 'location', 'position': { 'lat': '', 'lng': '' } },
       center: {lat: 19.6723463, lng: -99.017131},
       nuevaEscuela: {

@@ -73,10 +73,10 @@
 
 <script>
 export default {
-  props: [
-    'escuela',
-    'fichatipo'
-  ],
+  props: {
+    escuela: { type: Object },
+    fichatipo: { type: Number }
+  },
   methods: {
     enumerar (escuela) {
       let cats = escuela.categoria

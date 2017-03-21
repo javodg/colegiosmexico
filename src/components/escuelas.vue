@@ -10,6 +10,7 @@
       <div class="card card-busqueda">
         <div class="card-content">
           <h6><small>Categorias:</small></h6>
+          <busqueda database="algo"></busqueda>
           <q-select type="list" v-model="categoria" @input="$router.push(categoria)" :options="selectOptions" class="fit"></q-select>
           <q-search v-model="searchModel"></q-search>
           <button class="bg-orange text-white small fit" @click="buscar(searchModel)"><i class="on-left">search</i>Buscar</button>
@@ -118,19 +119,6 @@
 </template>
 
 <script>
-  import Firebase from 'firebase'
-
-  let config = {
-    apiKey: 'AIzaSyAnhW4JuxrRahLlnRUU2FVmGTa_3HoWZgQ',
-    authDomain: 'colegiosmexico.firebaseapp.com',
-    databaseURL: 'https://colegiosmexico.firebaseio.com',
-    storageBucket: 'colegiosmexico.appspot.com',
-    messagingSenderId: '868558740161'
-  }
-
-  let app = Firebase.initializeApp(config)
-  // Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
-  let db = app.database()
 
   export default {
     methods: {
@@ -151,13 +139,13 @@
         vm.categoria = this.$route.params.id
         // Query para todas las escuelas
         if (vm.categoria === 'todas') {
-          db.ref('escuela').once('value').then(function (dataSnapshot) {
+          this.database.ref('escuela').once('value').then(function (dataSnapshot) {
             // console.log(dataSnapshot.val())
             vm.infoRender = dataSnapshot.val() // pasa los resultados de la busqueda al objeto para hacer el Render
           })
         }
         else {
-          db.ref('escuela').orderByChild('categoria/' + this.categoria).equalTo(true).once('value').then(function (dataSnapshot) {
+          this.database.ref('escuela').orderByChild('categoria/' + this.categoria).equalTo(true).once('value').then(function (dataSnapshot) {
             // console.log(dataSnapshot.val())
             vm.infoRender = dataSnapshot.val() // pasa los resultados de la busqueda al objeto para hacer el Render
           })
@@ -166,7 +154,7 @@
       buscar (query) {
         // TODO Falta hacer la funcion para busqueda de la base de datos y mostrar la informacion.
         console.log(query)
-        db.ref('escuela').orderByChild('nombre/').endAt(query + '\uf8ff').once('value').then(function (dataSnapshot) {
+        this.database.ref('escuela').orderByChild('nombre/').endAt(query + '\uf8ff').once('value').then(function (dataSnapshot) {
           console.log(dataSnapshot.val())
           // vm.infoRender = dataSnapshot.val() // pasa los resultados de la busqueda al objeto para hacer el Render
         })
@@ -182,6 +170,7 @@
     },
     data () {
       return {
+        database: this.$root.database,
         categoria: this.$route.params.id,
         searchModel: '',
         infoRender: [],
@@ -221,75 +210,6 @@
 </script>
 
 <style scoped>
-.resultado {
-  height: 15em;
-}
-
-.resultado-logo {
-  width: 20em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-  height: 15em;
-  display: flex;
-  flex-direction: column;
-}
-.resultado-logo .logo {
-  flex-basis: 1;
-  box-sizing: border-box;
-  height: 13.5em;
-  margin: 0 auto;
-  padding: .4em;
-  text-align: center;
-}
-
-.resultado-logo .calificacion {
-  height: 1.5em;
-  background-color: #333;
-  text-align: center;
-  display: block;
-}
-
-.resultado .titulo {
-  width: 100%;
-  min-height: 0;
-}
-
-.resultado .titulo small {
-  font-size: .8em;
-  font-style: italic;
-}
-
-.resultado .cuerpo {
-  width: 100%;
-  padding: .8em;
-}
-
-.resultado .cuerpo .descripcion,
-.resultado .cuerpo .datos-contacto {
-  flex-basis: 50%;
-  padding: .2em;
-}
-.resultado .cuerpo .datos-contacto div {
-  display: flex;
-}
-.resultado .cuerpo .datos-contacto div span:first-child {
-  font-weight: bold;
-  width: 5em;
-}
-.resultado .cuerpo .datos-contacto div span:last-child {
-  flex-basis: 70%;
-  font-size: .9em;
-}
-.resultado .titulo>.nombre {
-  font-size: 1.2em;
-  font-weight: bold;
-  float: left;
-}
-
-.resultado .titulo>.social {
-  float: right;
-  height: 1.4em;
-}
-
 .w80 {
   flex-basis: auto;
   width: 100%;
