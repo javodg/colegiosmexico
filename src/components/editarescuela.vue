@@ -6,7 +6,6 @@
         <div class="card-title bg-white">
           Formulario
           <button class="primary small float-right" @click="actualizarInfo()">Actualizar</button>
-          <button class="primary small float-right" @click="eliminarescuela()">Eliminar</button>
         </div>
         <div v-if="escuela[id]" class="card-content bg-white">
           <div class="list">
@@ -63,6 +62,7 @@
                 </div>
               </div>
             </div>
+            <button class="primary small float-right" @click="eliminarescuela()">Eliminar</button>
           </div>
         </div>
       </div>
@@ -70,76 +70,18 @@
         <div class="card-title bg-orange text-white">
           Ficha ejemplo
         </div>
-        <div class="card-content bg-white">
-          <!-- TODO Muestra de info para debug, eliminar
-            {{ escuela }} - {{ escuela[id].nombre }}
-          -->
+        <div class="card-content bg-white flex column">
           <fichaescuela :escuela="escuela[id]" fichatipo="1"></fichaescuela>
-          <!-- TODO Pendiente de eliminar cuando compruebe <fichaescuela> funciona sin errores -->
-          <!--
-            <div v-if="escuela[id]" class="card row resultado">
-              <div class="resultado-logo w20 ">
-                <img class="logo" :src="'statics/logos/' + escuela[id].nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
-                <div class="calificacion vertical-bottom">
-                  <template v-for="ii in 5">
-                    <i v-if="ii<=escuela[id].rating" class="text-yellow-9">grade</i>
-                    <i v-if="ii>escuela[id].rating" class="text-white">grade</i>
-                  </template>
-                </div>
-              </div>
-              <div class="card-content w80 no-padding">
-                <div class="toolbar orange titulo">
-                  <div class="nombre">
-                    {{ escuela[id].nombre }} - <small>{{ escuela[id].tipo }}</small>
-                  </div>
-                  <div v-if="escuela[id].social" class="social">
-                    Social
-                    <a v-if="escuela[id].social.facebook" :href="escuela[id].social.facebook" class="text-white">
-                      <icon name="facebook-square" scale="1.5"></icon>
-                    </a>
-                    <a v-if="escuela[id].social.twitter" :href="escuela[id].social.twitter" class="text-white">
-                      <icon name="twitter-square" scale="1.5"></icon>
-                    </a>
-                    <a v-if="escuela[id].social.foursquare" :href="escuela[id].social.foursquare" class="text-white">
-                      <icon label="foursquare" class="stalk">
-                        <icon name="square" scale="1.5"></icon>
-                        <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                      </icon>
-                    </a>
-                  </div>
-                </div>
-                <div class="cuerpo">
-                  <div class="descripcion">
-                    {{ escuela[id].descripcion }}
-                  </div>
-                  <div class="datos-contacto" v-if="escuela[id].direccion">
-                    <span>Direccion:</span>
-                    <span>
-                      <span v-if="typeof(escuela[id].direccion)==='string'">{{ escuela[id].direccion }}</span>
-                      <span v-else v-for="dir in escuela[id].direccion">
-                        {{ dir }}
-                      </span>
-                    </span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela[id].telefono">
-                    <span>Telefono:</span>
-                    <span>{{ escuela[id].telefono }}</span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela[id].web">
-                    <span>Siio Web:</span>
-                    <span>{{ escuela[id].web }}</span>
-                  </div>
-                  <div class="datos-contacto" v-if="escuela[id].mail">
-                    <span>Correo:</span>
-                    <span>{{ escuela[id].mail }}</span>
-                  </div>
-                  <div class="" v-if="escuela[id].fichaTipo==1">
-                    {{ escuela[id].info }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          -->
+          <gmap-map
+            ref="mapa"
+            :center="center"
+            :zoom="15"
+            style="width: 100%"
+            class="auto"
+            @click="clicklog">
+            <gmap-marker v-if="mark.position.lat" :position="mark.position" :key="mark.id">
+            </gmap-marker>
+          </gmap-map>
         </div>
       </div>
     </div>
@@ -147,27 +89,28 @@
 </template>
 
 <script>
-import Firebase from 'firebase'
-
-let config = {
-  apiKey: 'AIzaSyAnhW4JuxrRahLlnRUU2FVmGTa_3HoWZgQ',
-  authDomain: 'colegiosmexico.firebaseapp.com',
-  databaseURL: 'https://colegiosmexico.firebaseio.com',
-  storageBucket: 'colegiosmexico.appspot.com',
-  messagingSenderId: '868558740161'
-}
-
-let app = Firebase.initializeApp(config, 'modificarEscuela')
-// Firebase.database.enableLogging(function (message) { console.debug('[FIREBASE]', message) })
-let db = app.database()
+import { _root } from '../main'
 
 export default {
   methods: {
+    clicklog (mouseArgs) {
+      this.mark = {
+        id: 'location',
+        position: {
+          lat: mouseArgs.latLng.lat(),
+          lng: mouseArgs.latLng.lng()
+        }
+      }
+      this.escuela[this.$route.params.id].lat = mouseArgs.latLng.lat()
+      this.escuela[this.$route.params.id].lng = mouseArgs.latLng.lng()
+      console.log(mouseArgs.latLng.lat())
+      console.log(mouseArgs.latLng.lng())
+    },
     eliminarescuela () {
       let vm = this
       let id = this.$route.params.id
       let name = vm.escuela.nombre
-      db.ref('escuela/' + id).remove().then(function () {
+      _root.database.ref('escuela/' + id).remove().then(function () {
         window.history.go(-1)
         console.log('Se elimino ' + name)
       }).catch(function (error) {
@@ -177,12 +120,18 @@ export default {
     query () {
       var vm = this // ingresa la el objeto de VUE a la funcion
       vm.id = this.$route.params.id
-      db.ref('escuela').orderByKey().equalTo(vm.id).on('value', function (dataSnapshot) {
+      _root.database.ref('escuela').orderByKey().equalTo(vm.id).on('value', function (dataSnapshot) {
         // console.log(dataSnapshot.val())
         vm.escuela = dataSnapshot.exportVal() // pasa los resultados de la busqueda al objeto para hacer el Render
+        // Ingresa los datos de latlng si existen, si no pasa strings vacias.
+        vm.mark.position.lat = vm.escuela[vm.id].lat ? vm.escuela[vm.id].lat : ''
+        vm.mark.position.lng = vm.escuela[vm.id].lng ? vm.escuela[vm.id].lng : ''
+        // Centra el mapa al marcador
+        vm.center.lat = vm.mark.position.lat
+        vm.center.lng = vm.mark.position.lng
+        // Inicio de arreglo para porblema social
+        // TODO falta arreglar las otras redes sociales, solo funciona facebook
         if (!vm.escuela[vm.id].social) {
-          // Inicio de arreglo para porblema social
-          // TODO falta arreglar las otras redes sociales, solo funciona facebook
           console.log('falta social')
           vm.escuela[vm.id][ 'social' ] = { facebook: '' }
           console.log(vm.escuela.social)
@@ -200,7 +149,7 @@ export default {
       var vm = this // ingresa la el objeto de VUE a la funcion
       vm.id = this.$route.params.id
       console.log(vm.escuela[vm.id])
-      db.ref('escuela/' + vm.id).set(vm.escuela[vm.id], function () {
+      _root.database.ref('escuela/' + vm.id).set(vm.escuela[vm.id], function () {
         window.history.go(-1)
       })
     }
@@ -216,17 +165,25 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      escuela: {}
+      center: {
+        lat: 19.6723463,
+        lng: -99.017131
+      },
+      escuela: {},
+      mark: {
+        'id': 'location',
+        'position': {
+          'lat': '',
+          'lng': ''
+        }
+      }
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-.card {
-  margin: auto .5em;
-  min-height: 75vh;
-}
+
 .ejemplo {
   flex-basis: 60em;
 }

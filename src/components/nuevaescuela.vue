@@ -1,135 +1,73 @@
 <template>
-<div class="layout-padding full-height">
-  <div class="row md-column justify-center items-stretch">
-    <div class="card formulario">
-      <div class="card-title bg-white">
-        Formulario
-        <button class="primary small float-right" @click="ingresarEscuela()">Terminar</button>
-        <button class="primary small float-right" @click="$refs.mapa.panBy(10,10)">prueba mapa</button>
-      </div>
-      <div class="card-content bg-white">
-        <div class="list">
-          <div class="item multiple-lines">
-            <div class="item-content">
-              <div class="stacked-label">
-                <input class="full-width" v-model="nuevaEscuela.nombre">
-                <label>Nombre</label>
+  <div class="layout-padding full-height">
+    <div class="row md-column justify-center items-stretch">
+      <div class="card formulario">
+        <div class="card-title bg-white">
+          Formulario
+          <button class="primary small float-right" @click="ingresarEscuela()">Terminar</button>
+        </div>
+        <div class="card-content bg-white">
+          <div class="list">
+            <div class="item multiple-lines">
+              <div class="item-content">
+                <div class="stacked-label">
+                  <input class="full-width" v-model="nuevaEscuela.nombre">
+                  <label>Nombre</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row wrap justify-between">
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.estancia"></q-checkbox>Estancias</label>
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.kinder"></q-checkbox>Kinder</label>
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.primaria"></q-checkbox>Primaria</label>
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.secundaria"></q-checkbox>Secundaria</label>
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.preparatoria"></q-checkbox>Preparatoria</label>
-            <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.universidad"></q-checkbox>Universidad</label>
-          </div>
-          <div class="item multiple-lines">
             <div class="item-content">
-              <div class="stacked-label">
-                <textarea class="full-width" v-model="nuevaEscuela.direccion"></textarea>
-                <label>Direccion:</label>
-              </div>
-              <div class="stacked-label">
-                <input class="full-width" v-model="nuevaEscuela.telefono">
-                <label>Telefono:</label>
-              </div>
-              <div class="stacked-label">
-                <input class="full-width" v-model="nuevaEscuela.mail">
-                <label>Correo:</label>
-              </div>
-              <div class="stacked-label">
-                <input class="full-width" v-model="nuevaEscuela.web">
-                <label>Sitio web:</label>
-              </div>
-              <div class="stacked-label">
-                <input class="full-width" v-model="nuevaEscuela.social.facebook">
-                <label>Facebook:</label>
+              <input type="file" id="input">
+            </div>
+            <div class="row wrap justify-between">
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.estancia"></q-checkbox>Estancias</label>
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.kinder"></q-checkbox>Kinder</label>
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.primaria"></q-checkbox>Primaria</label>
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.secundaria"></q-checkbox>Secundaria</label>
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.preparatoria"></q-checkbox>Preparatoria</label>
+              <label class="width-1of3"><q-checkbox v-model="nuevaEscuela.categoria.universidad"></q-checkbox>Universidad</label>
+            </div>
+            <div class="item multiple-lines">
+              <div class="item-content">
+                <div class="stacked-label">
+                  <textarea class="full-width" v-model="nuevaEscuela.direccion"></textarea>
+                  <label>Direccion:</label>
+                </div>
+                <div class="stacked-label">
+                  <input class="full-width" v-model="nuevaEscuela.telefono">
+                  <label>Telefono:</label>
+                </div>
+                <div class="stacked-label">
+                  <input class="full-width" v-model="nuevaEscuela.mail">
+                  <label>Correo:</label>
+                </div>
+                <div class="stacked-label">
+                  <input class="full-width" v-model="nuevaEscuela.web">
+                  <label>Sitio web:</label>
+                </div>
+                <div class="stacked-label">
+                  <input class="full-width" v-model="nuevaEscuela.social.facebook">
+                  <label>Facebook:</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item multiple-lines">
-            <div class="item-content">
-              <div class="stacked-label">
-                <textarea class="full-width descripcion" v-model="nuevaEscuela.descripcion"></textarea>
-                <label>Descripcion:</label>
+            <div class="item multiple-lines">
+              <div class="item-content">
+                <div class="stacked-label">
+                  <textarea class="full-width descripcion" v-model="nuevaEscuela.descripcion"></textarea>
+                  <label>Descripcion:</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card ejemplo bg-white">
-      <div class="card-title bg-orange text-white">
-        Ficha ejemplo
-      </div>
-      <div class="card-content bg-white">
-        <fichaescuela v-if="nuevaEscuela" :escuela="nuevaEscuela" fichatipo="1"></fichaescuela>
-        <!-- TODO Pendiente eliminar cuando se compruebe quye no hay errores -->
-        <!--
-          <div v-if="nuevaEscuela" class="card row resultado">
-          <div class="resultado-logo w20 ">
-            <img class="logo" :src="'statics/logos/colegiovallarta.png'" alt="">
-            <div class="calificacion vertical-bottom">
-              <template v-for="ii in 5">
-                <i v-if="ii<=nuevaEscuela.rating" class="text-yellow-9">grade</i>
-                <i v-if="ii>nuevaEscuela.rating" class="text-white">grade</i>
-              </template>
-            </div>
-                </div>
-                <div class="card-content w80 no-padding">
-                  <div class="toolbar orange titulo">
-                    <div class="nombre">
-                      {{ nuevaEscuela.nombre }} - <small>{{ nuevaEscuela.tipo }}</small>
-                    </div>
-                    <div v-if="nuevaEscuela.social" class="social">
-                      <a v-if="nuevaEscuela.social.facebook" :href="nuevaEscuela.social.facebook" class="text-white">
-                        <icon name="facebook-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="nuevaEscuela.social.twitter" :href="nuevaEscuela.social.twitter" class="text-white">
-                        <icon name="twitter-square" scale="1.5"></icon>
-                      </a>
-                      <a v-if="nuevaEscuela.social.foursquare" :href="nuevaEscuela.social.foursquare" class="text-white">
-                        <icon label="foursquare" class="stalk">
-                          <icon name="square" scale="1.5"></icon>
-                          <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                        </icon>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="cuerpo">
-                    <div class="descripcion">
-                      {{ nuevaEscuela.descripcion }}
-                    </div>
-                    <div class="datos-contacto" v-if="nuevaEscuela.direccion">
-                      <span>Direccion:</span>
-                      <span>
-                        <span v-if="typeof(nuevaEscuela.direccion)==='string'">{{ nuevaEscuela.direccion }}</span>
-                        <span v-else v-for="dir in nuevaEscuela.direccion">
-                          {{ dir }}
-                        </span>
-                      </span>
-                    </div>
-                    <div class="datos-contacto" v-if="nuevaEscuela.telefono">
-                      <span>Telefono:</span>
-                      <span>{{ nuevaEscuela.telefono }}</span>
-                    </div>
-                    <div class="datos-contacto" v-if="nuevaEscuela.web">
-                      <span>Siio Web:</span>
-                      <span>{{ nuevaEscuela.web }}</span>
-                    </div>
-                    <div class="datos-contacto" v-if="nuevaEscuela.mail">
-                      <span>Correo:</span>
-                      <span>{{ nuevaEscuela.mail }}</span>
-                    </div>
-                    <div class="" v-if="nuevaEscuela.fichaTipo==1">
-                      {{ nuevaEscuela.info }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            -->
+      <div class="card ejemplo bg-white">
+        <div class="card-title bg-orange text-white">
+          Ficha ejemplo
+        </div>
+        <div class="card-content bg-white">
+          <fichaescuela v-if="nuevaEscuela" :escuela="nuevaEscuela" fichatipo="1"></fichaescuela>
         </div>
         <div class="card">
           {{ mark }}<br>
@@ -142,6 +80,7 @@
             <gmap-marker v-if="mark.position.lat" :position="mark.position" :key="mark.id">
             </gmap-marker>
           </gmap-map>
+          {{ nuevaEscuela.imageref }}
         </div>
       </div>
     </div>
@@ -149,6 +88,8 @@
 </template>
 
 <script>
+import { _root } from '../main'
+
 export default {
   methods: {
     ingresarEscuela () {
@@ -158,6 +99,9 @@ export default {
       console.log(newKey)
       var update = {}
       update['/' + newKey] = vm.nuevaEscuela
+      // Sube la imagen seleccionada
+      var file = document.getElementById('input').files[0]
+      this.imgref.put(file)
       return this.database.ref('escuela').update(update, function (error) {
         if (error) console.log('fallo' + error)
         else {
@@ -180,6 +124,8 @@ export default {
     }
   },
   created () {
+    this.imgref = _root.storage.ref('images/logos/' + this.nuevaEscuela.nombre + '.png')
+    this.nuevaEscuela.imageref = 'images/logos/' + this.nuevaEscuela.nombre + '.png'
     // fetch the data when the view is created and the data is
   },
   watch: {
@@ -187,7 +133,7 @@ export default {
   },
   data () {
     return {
-      database: this.$root.database,
+      database: _root.database,
       mark: { 'id': 'location', 'position': { 'lat': '', 'lng': '' } },
       center: {lat: 19.6723463, lng: -99.017131},
       nuevaEscuela: {
@@ -199,6 +145,7 @@ export default {
           secundaria: false,
           universidad: false
         },
+        imageref: '',
         descripcion: '',
         direccion: '',
         mail: '',
@@ -212,7 +159,8 @@ export default {
         web: '',
         lat: 'a',
         lng: 'a'
-      }
+      },
+      imgref: ''
     }
   }
 }

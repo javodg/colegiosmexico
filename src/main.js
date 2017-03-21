@@ -18,7 +18,7 @@ import 'normalize.css'
 import busqueda from './components/busqueda'
 Vue.component('busqueda', busqueda)
 
-// Inicio de base de datos
+// Inicio de coneccion con firebase
 import Firebase from 'firebase'
 let config = {
   apiKey: 'AIzaSyAnhW4JuxrRahLlnRUU2FVmGTa_3HoWZgQ',
@@ -28,10 +28,12 @@ let config = {
   messagingSenderId: '868558740161'
 }
 var appInit = Firebase.initializeApp(config, 'database')
-// TODO quitar las funciones de debug del resto de componentes.
-// Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
+
+// TODO buscar toas la referencias de estas variable para eliminarlas. Estas variables ya son inservibles
 var appDB = appInit.database()
 var bus = appInit.database()
+// TODO quitar las funciones de debug del resto de componentes.
+// Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
 
 // Inicio de mapas
 import * as VueGoogleMaps from 'vue2-google-maps'
@@ -70,5 +72,6 @@ Quasar.start(() => {
 })
 
 export const _root =  {
-  database: appInit.database()
+  database: appInit.database(), // Inicio de database
+  storage: appInit.storage() // inicio de storage
 }

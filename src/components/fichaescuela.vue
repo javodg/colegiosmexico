@@ -75,7 +75,7 @@
 export default {
   props: {
     escuela: { type: Object },
-    fichatipo: { type: Number }
+    fichatipo: { type: String }
   },
   methods: {
     enumerar (escuela) {
@@ -102,19 +102,19 @@ export default {
   height: 10em;
 }
 .ficha1 {
-  height: 15em;
+  height: 12em;
 }
 .ficha .logo {
   width: 20em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-  height: 15em;
+  height: 12em;
   display: flex;
   flex-direction: column;
 }
-.ficha>.logo>.image {
+.ficha .logo>.image {
   flex-basis: 1;
   box-sizing: border-box;
-  height: 13.5em;
+  height: 11.5em;
   margin: 0 auto;
   padding: .4em;
   text-align: center;
