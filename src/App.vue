@@ -5,16 +5,16 @@
     <img src="~assets/logovox.png" alt="" class="logovox">
     <div class="header-social float-left">
       <a href="https://www.facebook.com/El-Directorio-Comercial-190452041047611/?fref=ts" class="desktop-only">
-        <icon name="facebook-square" scale="1.5" class="text-orange"></icon>
+        <i class="fa fa-facebook-square fa-2x text-orange"></i>
       </a>
       <a class="desktop-only">
-        <icon name="twitter-square" scale="1.5" class="text-orange"></icon>
+        <i class="fa fa-twitter-square fa-2x text-orange"></i>
       </a>
       <a href="mail:ventas@voxmedia.mx" class="desktop-only">
-        <icon name="envelope-square" scale="1.5" class="text-orange"></icon>
+        <i class="fa fa-envelope-square fa-2x text-orange"></i>
       </a>
       <a href="tel:59387742"class="desktop-only">
-        <icon name="phone-square" scale="1.5" class="text-orange"></icon>
+        <i class="fa fa-phone-square fa-2x text-orange"></i>
       </a>
       <q-search v-model="searchModel"></q-search>
     </div>

@@ -7,10 +7,8 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 // ==============================
 
 import Vue from 'vue'
-import VueFire from 'vuefire'
 import Quasar from 'quasar'
 import router from './router'
-import 'vue-awesome/icons'
 import 'normalize.css'
 
 // Inicio de caja de busqueda autocompletable
@@ -31,7 +29,7 @@ var appInit = Firebase.initializeApp(config, 'database')
 
 // TODO buscar toas la referencias de estas variable para eliminarlas. Estas variables ya son inservibles
 var appDB = appInit.database()
-var bus = appInit.database()
+// var bus = appInit.database()
 // TODO quitar las funciones de debug del resto de componentes.
 // Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
 
@@ -49,15 +47,15 @@ import fichaescuela from 'components/fichaescuela'
 Vue.component('fichaescuela', fichaescuela)
 
 // FontAwesome icons
-import Icon from 'vue-awesome/components/Icon.vue'
-Vue.component('icon', Icon)
+// import Icon from 'vue-awesome/components/Icon.vue'
+// Vue.component('icon', Icon)
 
 Vue.use(Quasar) // Install Quasar Framework
-var mainAPP
+// var mainAPP
 
 Quasar.start(() => {
   /* eslint-disable no-new */
-  mainAPP = new Vue({ // eslint-disable
+  new Vue({ // eslint-disable
     el: '#q-app',
     data () {
       return {

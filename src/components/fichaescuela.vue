@@ -3,7 +3,7 @@
       <div class="logo">
         <!-- TODO pendiente implementar la subida de imagenes -->
         <!-- <img class="logo" :src="'statics/logos/' + nuevaEscuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt=""> -->
-        <img class="image" :src="'statics/logos/' + escuela.nombre.replace(' ', '').replace(' ', '').toLowerCase() +'.png'" alt="">
+        <img class="image" :src="escuela.imageref" alt="">
         <div class="calificacion vertical-bottom">
           <template v-for="ii in 5">
             <i v-if="ii<=escuela.rating" class="text-yellow-9">grade</i>
@@ -22,21 +22,18 @@
           <div class="social">
             <!-- TODO Primeros modificaciones a la parte social de la fiche tipo 1 -->
             <!-- TODO Provar si funcionan adecuadamente, buscar errores -->
-            <router-link :to="'/editarescuela/' + id" class="text-white">
-              <icon name="cog" scale="1.5"></icon>
+            <router-link :to="'/editarescuela/' + id" class="text-white ">
+              <i class="fa fa-cog fa-lg vertical-middle"></i>
             </router-link>
             <template v-if="escuela.social" >
               <a v-if="escuela.social.facebook" :href="escuela.social.facebook" class="text-white">
-                <icon name="facebook-square" scale="1.5"></icon>
+                <i class="fa fa-facebook-square fa-lg"></i>
               </a>
               <a v-if="escuela.social.twitter" :href="escuela.social.twitter" class="text-white">
-                <icon name="twitter-square" scale="1.5"></icon>
+                <i class="fa fa-twitter-square fa-lg"></i>
               </a>
               <a v-if="escuela.social.foursquare" :href="escuela.social.foursquare" class="text-white">
-                <icon label="foursquare" class="stalk">
-                  <icon name="square" scale="1.5"></icon>
-                  <icon name="foursquare" scale="1.1" class="text-orange"></icon>
-                </icon>
+                <i class="fa fa-foursquare fa-lg"></i>
               </a>
             </template>
           </div>

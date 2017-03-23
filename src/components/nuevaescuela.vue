@@ -93,20 +93,29 @@ import { _root } from '../main'
 export default {
   methods: {
     ingresarEscuela () {
-      var vm = this // ingresa la el objeto de VUE a la funcion
-      var newKey = this.database.ref('escuela').push().key
-      console.log(vm.nuevaEscuela.nombre)
-      console.log(newKey)
+      var vm = this // ingresa el objeto de VUE a la funcion
+      var newKey = this.database.ref('escuela').push().key // genera nueva referencia para el nuevo registro de la base de datos
       var update = {}
       update['/' + newKey] = vm.nuevaEscuela
       // Sube la imagen seleccionada
       var file = document.getElementById('input').files[0]
-      this.imgref.put(file)
-      return this.database.ref('escuela').update(update, function (error) {
-        if (error) console.log('fallo' + error)
-        else {
-          window.history.go(-1)
-        }
+      this.imgref = _root.storage.ref('images/logos/' + this.nuevaEscuela.nombre + '.png')
+      var subidaImagen = this.imgref.put(file)
+      subidaImagen.on('state_changed', function (snapshot) {
+        console.log(snapshot)
+      }, function (error) {
+        console.log('error' + error)
+      }, function () {
+        var URLimagen = subidaImagen.snapshot.downloadURL
+        console.log(URLimagen)
+
+        vm.nuevaEscuela.imageref = URLimagen
+        return vm.database.ref('escuela').update(update, function (error) {
+          if (error) console.log('fallo' + error)
+          else {
+            window.history.go(-1)
+          }
+        })
       })
     },
     clicklog (mouseArgs) {
@@ -124,8 +133,7 @@ export default {
     }
   },
   created () {
-    this.imgref = _root.storage.ref('images/logos/' + this.nuevaEscuela.nombre + '.png')
-    this.nuevaEscuela.imageref = 'images/logos/' + this.nuevaEscuela.nombre + '.png'
+
     // fetch the data when the view is created and the data is
   },
   watch: {
@@ -149,7 +157,7 @@ export default {
         descripcion: '',
         direccion: '',
         mail: '',
-        nombre: 'dsa',
+        nombre: '',
         rating: '',
         social: {
           facebook: '',
@@ -167,96 +175,96 @@ export default {
 </script>
 
 <style scoped>
-.card.ejemplo {
-  margin: auto .5em;
-  min-height: 75vh;
-}
-.card-content {
-  width: 100%;
-}
-.ejemplo {
-  flex-basis: 65em;
-}
+  .card.ejemplo {
+    margin: auto .5em;
+    min-height: 75vh;
+  }
+  .card-content {
+    width: 100%;
+  }
+  .ejemplo {
+    flex-basis: 65em;
+  }
 
-.card.formulario {
-  flex-basis: 30em;
-}
+  .card.formulario {
+    flex-basis: 30em;
+  }
 
-.card-content {
-  height: 100%;
-}
+  .card-content {
+    height: 100%;
+  }
 
-.resultado {
-  height: 15em;
-}
+  .resultado {
+    height: 15em;
+  }
 
-.resultado-logo {
-  width: 20em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-  height: 15em;
-  display: flex;
-  flex-direction: column;
-}
-.resultado-logo .logo {
-  flex-basis: 1;
-  box-sizing: border-box;
-  height: 13.5em;
-  margin: 0 auto;
-  padding: .4em;
-  text-align: center;
-}
+  .resultado-logo {
+    width: 20em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    height: 15em;
+    display: flex;
+    flex-direction: column;
+  }
+  .resultado-logo .logo {
+    flex-basis: 1;
+    box-sizing: border-box;
+    height: 13.5em;
+    margin: 0 auto;
+    padding: .4em;
+    text-align: center;
+  }
 
-.resultado-logo .calificacion {
-  height: 1.5em;
-  background-color: #333;
-  text-align: center;
-  display: block;
-}
+  .resultado-logo .calificacion {
+    height: 1.5em;
+    background-color: #333;
+    text-align: center;
+    display: block;
+  }
 
-.resultado .titulo {
-  width: 100%;
-  min-height: 0;
-}
+  .resultado .titulo {
+    width: 100%;
+    min-height: 0;
+  }
 
-.resultado .titulo small {
-  font-size: .8em;
-  font-style: italic;
-}
+  .resultado .titulo small {
+    font-size: .8em;
+    font-style: italic;
+  }
 
-.resultado .cuerpo {
-  width: 100%;
-  padding: .8em;
-}
+  .resultado .cuerpo {
+    width: 100%;
+    padding: .8em;
+  }
 
-.resultado .cuerpo .descripcion {
-  margin-bottom: .8em;
-  text-align: justify;
-}
-.resultado .cuerpo .datos-contacto {
-  width: 100%;
-}
-.resultado .cuerpo .datos-contacto span {
-  display: inline-block;
-  width: 30em;
-}
-.resultado .cuerpo .datos-contacto > span:first-child {
-  vertical-align: top;
-  font-weight: bold;
-  width: 5.5em;
-}
-.resultado .titulo>.nombre {
-  font-size: 1.2em;
-  font-weight: bold;
-  float: left;
-}
+  .resultado .cuerpo .descripcion {
+    margin-bottom: .8em;
+    text-align: justify;
+  }
+  .resultado .cuerpo .datos-contacto {
+    width: 100%;
+  }
+  .resultado .cuerpo .datos-contacto span {
+    display: inline-block;
+    width: 30em;
+  }
+  .resultado .cuerpo .datos-contacto > span:first-child {
+    vertical-align: top;
+    font-weight: bold;
+    width: 5.5em;
+  }
+  .resultado .titulo>.nombre {
+    font-size: 1.2em;
+    font-weight: bold;
+    float: left;
+  }
 
-.resultado .titulo>.social {
-  float: right;
-  height: 1.4em;
-}
+  .resultado .titulo>.social {
+    float: right;
+    height: 1.4em;
+  }
 
 
-textarea.descripcion {
-  height: 6em;
-}
+  textarea.descripcion {
+    height: 6em;
+  }
 </style>
