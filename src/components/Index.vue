@@ -78,33 +78,14 @@
 </template>
 
 <script>
+import { _root } from '../main'
+
 export default {
   data () {
     return {
       searchModel: '',
       select: 'Categoria',
-      selectOptions: [
-        {
-          label: 'Estancias',
-          value: 'estancias'
-        },
-        {
-          label: 'Kinder',
-          value: 'kinder'
-        },
-        {
-          label: 'Primarias',
-          value: 'primarias'
-        },
-        {
-          label: 'Secundarias',
-          value: 'secundarias'
-        },
-        {
-          label: 'Preparatorias',
-          value: 'preparatoria'
-        }
-      ]
+      selectOptions: _root.catEscuelas
     }
   }
 }

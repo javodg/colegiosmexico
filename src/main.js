@@ -9,16 +9,12 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
+import Vuex from 'vuex'
+import Firebase from 'firebase'
 import 'normalize.css'
 
-// Inicio de caja de busqueda autocompletable
-// TODO pendiente terminar funcion de busqueda y visualizacion de resultados
-import busqueda from './components/busqueda'
-Vue.component('busqueda', busqueda)
-
 // Inicio de coneccion con firebase
-import Firebase from 'firebase'
-let config = {
+const config = {
   apiKey: 'AIzaSyAnhW4JuxrRahLlnRUU2FVmGTa_3HoWZgQ',
   authDomain: 'colegiosmexico.firebaseapp.com',
   databaseURL: 'https://colegiosmexico.firebaseio.com',
@@ -26,6 +22,25 @@ let config = {
   messagingSenderId: '868558740161'
 }
 var appInit = Firebase.initializeApp(config, 'database')
+
+// Inicio de store general
+Vue.use(Vuex)
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+    database: appInit.database(), // Inicio de database
+    hosting: appInit.storage() // inicio de storage
+  },
+  mutations: {
+  	increment: state => state.count++,
+    decrement: state => state.count--
+  }
+})
+
+// Inicio de caja de busqueda autocompletable
+// TODO pendiente terminar funcion de busqueda y visualizacion de resultados
+import busqueda from './components/busqueda'
+Vue.component('busqueda', busqueda)
 
 // TODO buscar toas la referencias de estas variable para eliminarlas. Estas variables ya son inservibles
 var appDB = appInit.database()
@@ -53,6 +68,18 @@ Vue.component('fichaescuela', fichaescuela)
 Vue.use(Quasar) // Install Quasar Framework
 // var mainAPP
 
+export const _root =  { // constantes sin reactividad
+  database: appInit.database(), // Inicio de database
+  storage: appInit.storage(), // inicio de storage
+  catEscuelas: [
+    { label: 'Estancias', value: 'estancias' },
+    { label: 'Kinder', value: 'kinder' },
+    { label: 'Primarias', value: 'primarias' },
+    { label: 'Secundarias', value: 'secundarias' },
+    { label: 'Preparatorias', value: 'preparatoria' }
+  ]
+}
+
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({ // eslint-disable
@@ -66,10 +93,4 @@ Quasar.start(() => {
     router,
     render: h => h(require('./App'))
   })
-
 })
-
-export const _root =  {
-  database: appInit.database(), // Inicio de database
-  storage: appInit.storage() // inicio de storage
-}

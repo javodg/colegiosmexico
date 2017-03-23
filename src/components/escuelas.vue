@@ -52,6 +52,7 @@
 </template>
 
 <script>
+  import { _root } from '../main'
 
   export default {
     methods: {
@@ -107,28 +108,7 @@
         categoria: this.$route.params.id,
         searchModel: '',
         infoRender: [],
-        selectOptions: [
-          {
-            label: 'Estancias',
-            value: 'estancia'
-          },
-          {
-            label: 'Kinder',
-            value: 'kinder'
-          },
-          {
-            label: 'Primarias',
-            value: 'primaria'
-          },
-          {
-            label: 'Secundarias',
-            value: 'secundaria'
-          },
-          {
-            label: 'Preparatorias',
-            value: 'preparatoria'
-          }
-        ],
+        selectOptions: _root.catEscuelas,
         numeroEscuelas: [
           '21',
           '23',

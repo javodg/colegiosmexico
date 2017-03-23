@@ -1,8 +1,13 @@
 {
-  "name": "quasar-app",
-  "version": "0.0.1",
-  "description": "A Quasar App",
-  "author": "Your Name",
+  "name": "voxmedia",
+  "version": "0.3.1",
+  "description": "Sitio web de Vox media",
+  "author": "Javier Diaz Gaitan",
+  "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/javodg/colegiosmexico.git"
+  },
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
@@ -22,7 +27,8 @@
     "vue": "2.2.2",
     "vue-router": "^2.0.0",
     "vue-template-compiler": "^2.1.10",
-    "vue2-google-maps": "^0.6.4"
+    "vue2-google-maps": "^0.6.4",
+    "vuex": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
