@@ -88,6 +88,8 @@
 </template>
 
 <script>
+ /* eslint-disable */
+ 
 import { _root } from '../main'
 
 export default {
@@ -138,6 +140,11 @@ export default {
   },
   watch: {
     // call again the method if the route changes
+  },
+  computed: {
+    escuela () {
+      return store.escuelas.escuelaactual
+    }
   },
   data () {
     return {
@@ -257,13 +264,10 @@ export default {
     font-weight: bold;
     float: left;
   }
-
   .resultado .titulo>.social {
     float: right;
     height: 1.4em;
   }
-
-
   textarea.descripcion {
     height: 6em;
   }

@@ -29,7 +29,7 @@
       <q-tab route="/contacto" exact>Contacto</q-tab>
     </q-tabs>
     <button @click="$refs.rightDrawer.open()"><i>more_vert</i></button>
-  </div>
+  </div>  
   <!-- Left-side Drawer -->
   <q-drawer swipe-only ref="leftDrawer">
     <div class="toolbar">

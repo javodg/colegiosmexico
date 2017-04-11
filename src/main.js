@@ -9,8 +9,8 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
-import Vuex from 'vuex'
 import Firebase from 'firebase'
+import Vuex from 'vuex'
 import 'normalize.css'
 
 // Inicio de coneccion con firebase
@@ -23,17 +23,88 @@ const config = {
 }
 var appInit = Firebase.initializeApp(config, 'database')
 
+export const _root =  { // constantes sin reactividad
+  database: appInit.database(), // Inicio de database
+  storage: appInit.storage(), // inicio de storage
+  catEscuelas: [
+    { label: 'Estancias', value: 'estancia' },
+    { label: 'Kinder', value: 'kinder' },
+    { label: 'Primarias', value: 'primaria' },
+    { label: 'Secundarias', value: 'secundaria' },
+    { label: 'Preparatorias', value: 'preparatoria' }
+  ]
+}
+Vue.config.productionTip = false
+
 // Inicio de store general
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     count: 0,
     database: appInit.database(), // Inicio de database
-    hosting: appInit.storage() // inicio de storage
+    storage: appInit.storage(), // inicio de storage
+    escuelas: {
+      escuelaactual: {
+        categoria: {
+          estancia: false,
+          kinder: false,
+          preparatoria: false,
+          primaria: false,
+          secundaria: false,
+          universidad: false
+        },
+        imageref: '',
+        descripcion: '',
+        direccion: '',
+        mail: '',
+        nombre: '',
+        rating: '',
+        social: {
+          facebook: '',
+          foursquare: ''
+        },
+        telefono: '',
+        web: '',
+        lat: 'a',
+        lng: 'a'
+      }
+    }
   },
   mutations: {
-  	increment: state => state.count++,
-    decrement: state => state.count--
+    increment: state => state.count++,
+    decrement: state => state.count--,
+    query (state) {
+      // var vm = this // ingresa la el objeto de VUE a la funcion
+      var id = this.$route.params.id
+      _root.database.ref('escuela').orderByKey().equalTo(id).on('value', function (dataSnapshot) {
+        // console.log(dataSnapshot.val())
+        state.escuelas.escuelaactual = dataSnapshot.exportVal() // pasa los resultados de la busqueda al objeto para hacer el Render
+        // Ingresa los datos de latlng si existen, si no pasa strings vacias.
+        // vm.mark.position.lat = vm.escuela[vm.id].lat ? vm.escuela[vm.id].lat : ''
+        // vm.mark.position.lng = vm.escuela[vm.id].lng ? vm.escuela[vm.id].lng : ''
+        // Centra el mapa al marcador
+        // vm.center.lat = vm.mark.position.lat
+        // vm.center.lng = vm.mark.position.lng
+        // Inicio de arreglo para porblema social
+        // TODO falta arreglar las otras redes sociales, solo funciona facebook
+        /*
+        if (!vm.escuela[vm.id].social) {
+          console.log('falta social')
+          vm.escuela[vm.id][ 'social' ] = { facebook: '' }
+          console.log(vm.escuela.social)
+        }
+        */
+        /*
+        var arraytemp = ['estancia', 'kinder', 'primaria', 'secundaria', 'preparatoria', 'universidad']
+        for (var i = 0; i < arraytemp.length; i++) {
+          if (vm.escuela[vm.id].categoria[ '' + arraytemp[i] ] === undefined) {
+            console.log('falta ' + arraytemp[i])
+            vm.escuela[vm.id].categoria[ '' + arraytemp[i] ] = false
+          }
+        }
+        */
+      })
+    }
   }
 })
 
@@ -46,7 +117,7 @@ Vue.component('busqueda', busqueda)
 var appDB = appInit.database()
 // var bus = appInit.database()
 // TODO quitar las funciones de debug del resto de componentes.
-// Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
+Firebase.database.enableLogging(function (message) {console.debug('[FIREBASE]', message)})
 
 // Inicio de mapas
 import * as VueGoogleMaps from 'vue2-google-maps'
@@ -67,18 +138,6 @@ Vue.component('fichaescuela', fichaescuela)
 
 Vue.use(Quasar) // Install Quasar Framework
 // var mainAPP
-
-export const _root =  { // constantes sin reactividad
-  database: appInit.database(), // Inicio de database
-  storage: appInit.storage(), // inicio de storage
-  catEscuelas: [
-    { label: 'Estancias', value: 'estancias' },
-    { label: 'Kinder', value: 'kinder' },
-    { label: 'Primarias', value: 'primarias' },
-    { label: 'Secundarias', value: 'secundarias' },
-    { label: 'Preparatorias', value: 'preparatoria' }
-  ]
-}
 
 Quasar.start(() => {
   /* eslint-disable no-new */

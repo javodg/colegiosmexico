@@ -1,4 +1,3 @@
-
 <template lang="html">
   <div class="layout-padding full-height">
     <div class="row md-column justify-center items-stretch">
@@ -89,6 +88,8 @@
 </template>
 
 <script>
+ /* eslint-disable */
+
 import { _root } from '../main'
 
 export default {
@@ -157,6 +158,7 @@ export default {
   created () {
     // fetch the data when the view is created and the data is
     this.query()
+    //  store.commit('querry')
   },
   watch: {
     // call again the method if the route changes

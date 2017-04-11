@@ -35,16 +35,17 @@ module.exports = {
   },
   module: {
     rules: [
-      { // eslint
+      // Comento estas lineas hasta corregir la situacion entre la incopatibilidad de Sublime y eslint
+      /* { // eslint
         enforce: 'pre',
-        test: /\.(vue|js)$/,
+        test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         include: projectRoot,
         exclude: /node_modules/,
         options: {
           formatter: require('eslint-friendly-formatter')
         }
-      },
+      }, */
       {
         test: /\.js$/,
         loader: 'babel-loader',
