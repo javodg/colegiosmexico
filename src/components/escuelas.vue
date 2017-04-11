@@ -14,7 +14,7 @@
             TODO Terminar la busqueda
             <busqueda database="algo"></busqueda>
             <q-search v-model="searchModel"></q-search>
-            <button class="bg-orange text-white small fit" @click="buscar(searchModel)"><i class="on-left">search</i>Buscar</button>
+            <button class="bg-light-green text-white small fit" @click="buscar(searchModel)"><i class="on-left">search</i>Buscar</button>
             -->
             <hr>
             <!-- TODO Arreglart el rating -->
@@ -31,7 +31,7 @@
             </div>
             <hr>
             -->
-            <button class="bg-orange text-white small fit" v-link="'/nuevaEscuela'"> Nueva escuela </button>
+            <button class="text-white small fit" :class="'bg-' + colorprincipal" v-link="'/nuevaEscuela'"> Nueva escuela </button>
           </div>
         </div>
         <div class="card card-resultados no-padding">

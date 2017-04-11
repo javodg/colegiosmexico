@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="card ejemplo">
-        <div class="card-title bg-orange text-white">
+        <div class="card-title text-white" :class="'bg-' + colorprincipal">
           Ficha ejemplo
         </div>
         <div class="card-content bg-white flex column">
@@ -166,6 +166,7 @@ export default {
   },
   data () {
     return {
+      colorprincipal: _root.colorprincipal,
       id: this.$route.params.id,
       center: {
         lat: 19.6723463,

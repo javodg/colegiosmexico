@@ -12,5 +12,6 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-firebase/test/
+# Build system
+firebase/
 dist/

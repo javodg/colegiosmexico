@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="card-content card-force-top-padding w80">
-        <div class="toolbar orange titulo" :style="'height:3em'">
+        <div class="toolbar titulo" :style="'height:3em'" :class="colorprincipal">
           <div class="nombre">
             {{ escuela.nombre }} -
             <small v-for="categoria in enumerar(escuela)" class="capitalize" :style="'font-size:.7em'">
@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { _root } from '../main'
+
 export default {
   props: {
     escuela: { type: Object },
@@ -88,6 +90,7 @@ export default {
   },
   data () {
     return {
+      colorprincipal: _root.colorprincipal,
       id: 0
     }
   }

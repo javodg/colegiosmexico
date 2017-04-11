@@ -1,27 +1,27 @@
 <template>
 <!-- Don't drop "q-app" class -->
 <div id="q-app">
-  <div class="toolbar inverted orange">
+  <div class="toolbar inverted " :class="colorprincipal">
     <img src="~assets/logovox.png" alt="" class="logovox">
     <div class="header-social float-left">
       <a href="https://www.facebook.com/El-Directorio-Comercial-190452041047611/?fref=ts" class="desktop-only">
-        <i class="fa fa-facebook-square fa-2x text-orange"></i>
+        <i class="fa fa-facebook-square fa-2x" :class="'text-' + colorprincipal"></i>
       </a>
       <a class="desktop-only">
-        <i class="fa fa-twitter-square fa-2x text-orange"></i>
+        <i class="fa fa-twitter-square fa-2x" :class="'text-' + colorprincipal"></i>
       </a>
       <a href="mail:ventas@voxmedia.mx" class="desktop-only">
-        <i class="fa fa-envelope-square fa-2x text-orange"></i>
+        <i class="fa fa-envelope-square fa-2x" :class="'text-' + colorprincipal"></i>
       </a>
       <a href="tel:59387742"class="desktop-only">
-        <i class="fa fa-phone-square fa-2x text-orange"></i>
+        <i class="fa fa-phone-square fa-2x" :class="'text-' + colorprincipal"></i>
       </a>
       <q-search v-model="searchModel"></q-search>
     </div>
   </div>
-  <div class="toolbar orange">
+  <div class="toolbar " :class="colorprincipal">
     <button @click="$refs.leftDrawer.open()"><i>menu</i></button>
-    <q-tabs class="orange" slot="navigation">
+    <q-tabs class="" :class="colorprincipal" slot="navigation">
       <q-tab route="/" exact>Inicio</q-tab>
       <q-tab route="/escuelas/todas" exact>Escuelas</q-tab>
       <q-tab route="/cursos" exact>Cursos</q-tab>
@@ -55,10 +55,13 @@
 </template>
 
 <script>
+import { _root } from './main.js'
+
 export default {
   data () {
     return {
-      searchModel: 'Buscar'
+      searchModel: 'Buscar',
+      colorprincipal: _root.colorprincipal
     }
   }
 }

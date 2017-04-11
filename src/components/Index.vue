@@ -5,22 +5,22 @@
       <div class="card categorias bg-white">
         <div class="card-content">
           <div class="row">
-            <button class="bg-orange" v-link="'/escuelas/estancia' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/estancia' ">
               Estancias
             </button>
-            <button class="bg-orange" v-link="'/escuelas/kinder' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/kinder' ">
               Kinder
             </button>
-            <button class="bg-orange" v-link="'/escuelas/primaria' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/primaria' ">
               Primaria
             </button>
-            <button class="bg-orange" v-link="'/escuelas/secundaria' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/secundaria' ">
               Secundaria
             </button>
-            <button class="bg-orange" v-link="'/escuelas/Preparatoria' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/Preparatoria' ">
               Preparatoria
             </button>
-            <button class="bg-orange" v-link="'/escuelas/universidad' ">
+            <button :class="'bg-' + colorprincipal" v-link="'/escuelas/universidad' ">
               Universidad
             </button>
           </div>
@@ -45,10 +45,10 @@
       Prueba de Un estilo mas "infantil".
     </div>
     <div class="card card-noticias">
-      <div class="card-title bg-orange text-white">
+      <div class="card-title text-white" :class="'bg-' + colorprincipal">
         Noticias
       </div>
-      <div class="card-content card-force-top-padding text-orange-9">
+      <div class="card-content card-force-top-padding" :class="'text-' + colorprincipal + '-9'">
         <h5 class="text-bold">Titulo</h5>
         <div class="row justify-around sm-column">
           <div class="auto">
@@ -83,6 +83,7 @@ import { _root } from '../main'
 export default {
   data () {
     return {
+      colorprincipal: _root.colorprincipal,
       searchModel: '',
       select: 'Categoria',
       selectOptions: _root.catEscuelas

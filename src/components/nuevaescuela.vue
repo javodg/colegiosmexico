@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="card ejemplo bg-white">
-        <div class="card-title bg-orange text-white">
+        <div class="card-title text-white" :class="'bg-' + colorprincipal">
           Ficha ejemplo
         </div>
         <div class="card-content bg-white">
@@ -148,6 +148,7 @@ export default {
   },
   data () {
     return {
+      colorprincipal: _root.database,
       database: _root.database,
       mark: { 'id': 'location', 'position': { 'lat': '', 'lng': '' } },
       center: {lat: 19.6723463, lng: -99.017131},

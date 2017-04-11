@@ -24,6 +24,7 @@ const config = {
 var appInit = Firebase.initializeApp(config, 'database')
 
 export const _root =  { // constantes sin reactividad
+  colorprincipal: 'orange',
   database: appInit.database(), // Inicio de database
   storage: appInit.storage(), // inicio de storage
   catEscuelas: [
